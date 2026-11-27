@@ -15,8 +15,10 @@ Remember, it's self-paced so feel free to take a break! ☕️
 ## Calculadora CLI
 
 Execute `node src/calculator.js 2 + 3` para somar. As operações disponíveis são
-`+`, `-`, `*` e `/`; coloque `*` entre aspas para evitar expansão pelo shell:
-`node src/calculator.js 45 '*' 2`. Execute os testes com `npm test`.
+`+`, `-`, `*`, `/`, `%` (resto) e `^` (potência); coloque `*` entre aspas
+para evitar expansão pelo shell: `node src/calculator.js 45 '*' 2`. Para raiz
+quadrada, use `node src/calculator.js sqrt 16`. Módulo por zero e raiz quadrada
+de número negativo produzem um erro. Execute os testes com `npm test`.
 
 ---
 

@@ -2,20 +2,21 @@
 
 class CalculatorError extends Error {}
 
-// Operações suportadas: adição, subtração, multiplicação e divisão.
-function add(a, b) {
+// Operações suportadas: addition (adição), subtraction (subtração),
+// multiplication (multiplicação) e division (divisão).
+function addition(a, b) {
   return a + b;
 }
 
-function subtract(a, b) {
+function subtraction(a, b) {
   return a - b;
 }
 
-function multiply(a, b) {
+function multiplication(a, b) {
   return a * b;
 }
 
-function divide(a, b) {
+function division(a, b) {
   if (b === 0) {
     throw new CalculatorError('Divisão por zero não é permitida.');
   }
@@ -23,10 +24,10 @@ function divide(a, b) {
 }
 
 const operations = {
-  '+': add,
-  '-': subtract,
-  '*': multiply,
-  '/': divide,
+  '+': addition,
+  '-': subtraction,
+  '*': multiplication,
+  '/': division,
 };
 
 function run(args) {
@@ -54,4 +55,18 @@ if (require.main === module) {
   }
 }
 
-module.exports = { add, subtract, multiply, divide };
+const add = addition;
+const subtract = subtraction;
+const multiply = multiplication;
+const divide = division;
+
+module.exports = {
+  addition,
+  subtraction,
+  multiplication,
+  division,
+  add,
+  subtract,
+  multiply,
+  divide,
+};

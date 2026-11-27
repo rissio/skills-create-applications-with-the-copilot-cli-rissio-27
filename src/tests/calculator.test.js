@@ -4,7 +4,16 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
 const path = require('node:path');
-const { add, subtract, multiply, divide } = require('../calculator');
+const {
+  addition,
+  subtraction,
+  multiplication,
+  division,
+  add,
+  subtract,
+  multiply,
+  divide,
+} = require('../calculator');
 
 const calculator = path.join(__dirname, '..', 'calculator.js');
 
@@ -13,6 +22,10 @@ test('adição, subtração, multiplicação e divisão', () => {
   assert.equal(subtract(10, 4), 6);
   assert.equal(multiply(45, 2), 90);
   assert.equal(divide(20, 5), 4);
+  assert.equal(addition(2, 3), 5);
+  assert.equal(subtraction(10, 4), 6);
+  assert.equal(multiplication(45, 2), 90);
+  assert.equal(division(20, 5), 4);
 });
 
 test('operações com números negativos, decimais e zero', () => {

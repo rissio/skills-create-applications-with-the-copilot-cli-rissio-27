@@ -32,7 +32,11 @@ function modulo(a, b) {
 }
 
 function power(base, exponent) {
-  return base ** exponent;
+  const result = base ** exponent;
+  if (!Number.isFinite(result)) {
+    throw new CalculatorError('A potência não produz um resultado válido e finito.');
+  }
+  return result;
 }
 
 function squareRoot(n) {

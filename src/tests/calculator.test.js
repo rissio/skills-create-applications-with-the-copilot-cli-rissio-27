@@ -49,6 +49,9 @@ test('modulo, power e square root, incluindo casos extremos', () => {
   assert.equal(power(2, 3), 8);
   assert.equal(power(2, -2), 0.25);
   assert.equal(power(5, 0), 1);
+  assert.throws(() => power(-1, 0.5), /potência.*resultado válido e finito/i);
+  assert.throws(() => power(0, -1), /potência.*resultado válido e finito/i);
+  assert.throws(() => power(10, 1000), /potência.*resultado válido e finito/i);
   assert.equal(squareRoot(16), 4);
   assert.equal(squareRoot(0), 0);
   assert.throws(() => squareRoot(-1), /raiz quadrada.*negativo/i);
@@ -75,6 +78,9 @@ test('CLI informa erros sem stack trace e retorna código de falha', () => {
   for (const [args, message] of [
     [['1', '/', '0'], /divisão por zero/i],
     [['5', '%', '0'], /módulo por zero/i],
+    [['-1', '^', '0.5'], /potência.*resultado válido e finito/i],
+    [['0', '^', '-1'], /potência.*resultado válido e finito/i],
+    [['10', '^', '1000'], /potência.*resultado válido e finito/i],
     [['sqrt', '-1'], /raiz quadrada.*negativo/i],
     [['sqrt', 'abc'], /números válidos/i],
     [['sqrt', ''], /números válidos/i],

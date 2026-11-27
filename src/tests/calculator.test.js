@@ -1,0 +1,58 @@
+'use strict';
+
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { spawnSync } = require('node:child_process');
+const path = require('node:path');
+const { add, subtract, multiply, divide } = require('../calculator');
+
+const calculator = path.join(__dirname, '..', 'calculator.js');
+
+test('adição, subtração, multiplicação e divisão', () => {
+  assert.equal(add(2, 3), 5);
+  assert.equal(subtract(10, 4), 6);
+  assert.equal(multiply(45, 2), 90);
+  assert.equal(divide(20, 5), 4);
+});
+
+test('operações com números negativos, decimais e zero', () => {
+  assert.equal(add(-2, 0.5), -1.5);
+  assert.equal(subtract(2, 5), -3);
+  assert.equal(multiply(3, 0), 0);
+  assert.equal(multiply(-3, 2), -6);
+  assert.equal(divide(-9, 2), -4.5);
+  assert.throws(() => divide(1, 0), /divisão por zero/i);
+  assert.throws(() => divide(1, -0), /divisão por zero/i);
+});
+
+test('CLI executa os exemplos da imagem', () => {
+  for (const [args, expected] of [
+    [['2', '+', '3'], '5'],
+    [['10', '-', '4'], '6'],
+    [['45', '*', '2'], '90'],
+    [['20', '/', '5'], '4'],
+  ]) {
+    const result = spawnSync(process.execPath, [calculator, ...args], { encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout.trim(), expected);
+    assert.equal(result.stderr, '');
+  }
+});
+
+test('CLI informa erros sem stack trace e retorna código de falha', () => {
+  for (const [args, message] of [
+    [['1', '/', '0'], /divisão por zero/i],
+    [['abc', '+', '3'], /números válidos/i],
+    [['', '+', '3'], /números válidos/i],
+    [['Infinity', '+', '3'], /números válidos/i],
+    [['2', '%', '3'], /uso:/i],
+    [['2', '+'], /uso:/i],
+    [['2', '+', '3', '4'], /uso:/i],
+  ]) {
+    const result = spawnSync(process.execPath, [calculator, ...args], { encoding: 'utf8' });
+    assert.equal(result.status, 1);
+    assert.equal(result.stdout, '');
+    assert.match(result.stderr, message);
+    assert.doesNotMatch(result.stderr, /\n\s+at /);
+  }
+});
